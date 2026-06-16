@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useApp } from '../../store/AppContext';
 import { WEEKDAY_LABELS, todayWeekday } from '../../lib/date';
+import { workoutMetaParts } from '../../lib/workout';
 import { WorkoutForm } from './WorkoutForm';
 import type { Workout } from '../../store/types';
 import styles from './PlanView.module.css';
@@ -56,21 +57,9 @@ export function PlanView() {
                   >
                     <span className={styles.itemMain}>
                       <span className={styles.itemName}>{w.name}</span>
-                      {(w.durationMin || w.reps) && (
-                        <span className={styles.itemMeta}>
-                          {w.durationMin && (
-                            <span className={styles.duration}>
-                              {w.durationMin} Min.
-                            </span>
-                          )}
-                          {w.durationMin && w.reps && (
-                            <span className={styles.metaDot}>·</span>
-                          )}
-                          {w.reps && (
-                            <span className={styles.duration}>
-                              {w.reps} Wdh.
-                            </span>
-                          )}
+                      {workoutMetaParts(w).length > 0 && (
+                        <span className={styles.duration}>
+                          {workoutMetaParts(w).join(' · ')}
                         </span>
                       )}
                     </span>

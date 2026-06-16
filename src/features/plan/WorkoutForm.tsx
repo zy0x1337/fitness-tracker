@@ -26,6 +26,7 @@ export function WorkoutForm({ weekday, workout, onClose }: WorkoutFormProps) {
   const [duration, setDuration] = useState(
     workout?.durationMin ? String(workout.durationMin) : '',
   );
+  const [sets, setSets] = useState(workout?.sets ? String(workout.sets) : '');
   const [reps, setReps] = useState(workout?.reps ? String(workout.reps) : '');
 
   const trimmed = name.trim();
@@ -39,6 +40,7 @@ export function WorkoutForm({ weekday, workout, onClose }: WorkoutFormProps) {
       id: workout?.id ?? crypto.randomUUID(),
       name: trimmed,
       durationMin: parsePositiveInt(duration),
+      sets: parsePositiveInt(sets),
       reps: parsePositiveInt(reps),
     };
 
@@ -77,15 +79,12 @@ export function WorkoutForm({ weekday, workout, onClose }: WorkoutFormProps) {
           />
         </div>
 
-        <div className={styles.metaRow}>
-          <div className={styles.field}>
-            <label className={styles.label} htmlFor="wf-duration">
-              Dauer (optional)
-            </label>
-            <div className={styles.unitInput}>
+        <div className={styles.field}>
+          <span className={styles.label}>Details (optional)</span>
+          <div className={styles.metaRow}>
+            <div className={styles.control}>
               <input
-                id="wf-duration"
-                className={styles.input}
+                className={styles.controlInput}
                 type="number"
                 inputMode="numeric"
                 min={1}
@@ -93,19 +92,29 @@ export function WorkoutForm({ weekday, workout, onClose }: WorkoutFormProps) {
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
                 placeholder="45"
+                aria-label="Dauer in Minuten"
               />
               <span className={styles.unit}>Min.</span>
             </div>
-          </div>
 
-          <div className={styles.field}>
-            <label className={styles.label} htmlFor="wf-reps">
-              Wiederholungen (optional)
-            </label>
-            <div className={styles.unitInput}>
+            <div className={styles.control}>
               <input
-                id="wf-reps"
-                className={styles.input}
+                className={styles.controlInput}
+                type="number"
+                inputMode="numeric"
+                min={1}
+                max={99}
+                value={sets}
+                onChange={(e) => setSets(e.target.value)}
+                placeholder="3"
+                aria-label="Anzahl Sätze"
+              />
+              <span className={styles.unit}>Sätze</span>
+            </div>
+
+            <div className={styles.control}>
+              <input
+                className={styles.controlInput}
                 type="number"
                 inputMode="numeric"
                 min={1}
@@ -113,6 +122,7 @@ export function WorkoutForm({ weekday, workout, onClose }: WorkoutFormProps) {
                 value={reps}
                 onChange={(e) => setReps(e.target.value)}
                 placeholder="12"
+                aria-label="Anzahl Wiederholungen"
               />
               <span className={styles.unit}>Wdh.</span>
             </div>

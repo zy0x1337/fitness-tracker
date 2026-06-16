@@ -32,21 +32,54 @@
   border-color: var(--accent);
 }
 
-/* Dauer + Wiederholungen nebeneinander */
+/* Dauer · Sätze · Wiederholungen — drei gleich breite Felder */
 .metaRow {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
-}
-
-.unitInput {
-  display: flex;
-  align-items: center;
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--space-2);
 }
 
-.unitInput .input {
+/* umschließender Eingabecontainer: Border + Padding sitzen hier,
+   damit alle drei Felder exakt gleich aussehen */
+.control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   min-width: 0;
+  min-height: 46px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  transition: border-color 0.18s var(--ease);
+}
+
+.control:focus-within {
+  border-color: var(--accent);
+}
+
+.controlInput {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  padding: 0;
+}
+
+.controlInput:focus {
+  outline: none;
+}
+
+/* native Number-Spinner ausblenden für ein ruhigeres Bild */
+.controlInput::-webkit-outer-spin-button,
+.controlInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.controlInput[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .unit {

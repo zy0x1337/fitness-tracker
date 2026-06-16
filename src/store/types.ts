@@ -5,6 +5,8 @@ export interface Workout {
   name: string;
   /** geschätzte Dauer in Minuten, optional */
   durationMin?: number;
+  /** Anzahl Sätze, optional */
+  sets?: number;
   /** Anzahl Wiederholungen, optional */
   reps?: number;
 }

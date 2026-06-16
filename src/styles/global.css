@@ -21,6 +21,7 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   min-height: 100dvh;
+  overflow-x: hidden;
   /* dezenter, fast unsichtbarer Verlauf für mehr Wärme */
   background-image: radial-gradient(
     140% 100% at 50% 0%,

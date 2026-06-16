@@ -14,7 +14,9 @@
   width: 100%;
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: var(--space-3) var(--space-4);
+  /* obere Safe-Area (Notch/Dynamic Island) im Standalone-Modus berücksichtigen */
+  padding: calc(var(--space-3) + env(safe-area-inset-top)) var(--space-4)
+    var(--space-3);
   background: color-mix(in srgb, var(--bg) 80%, transparent);
   backdrop-filter: saturate(1.4) blur(12px);
 }

@@ -1,10 +1,9 @@
-import { useState, type CSSProperties, type FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
 import { Modal } from '../../components/Modal';
 import { Button } from '../../components/Button';
-import { CATEGORIES } from '../../lib/categories';
 import { WEEKDAY_LABELS } from '../../lib/date';
 import { useApp } from '../../store/AppContext';
-import type { Category, Workout } from '../../store/types';
+import type { Workout } from '../../store/types';
 import styles from './WorkoutForm.module.css';
 
 interface WorkoutFormProps {
@@ -14,17 +13,20 @@ interface WorkoutFormProps {
   onClose: () => void;
 }
 
+function parsePositiveInt(value: string): number | undefined {
+  const n = parseInt(value, 10);
+  return Number.isFinite(n) && n > 0 ? n : undefined;
+}
+
 export function WorkoutForm({ weekday, workout, onClose }: WorkoutFormProps) {
   const { dispatch } = useApp();
   const isEdit = Boolean(workout);
 
   const [name, setName] = useState(workout?.name ?? '');
-  const [category, setCategory] = useState<Category>(
-    workout?.category ?? 'push',
-  );
   const [duration, setDuration] = useState(
     workout?.durationMin ? String(workout.durationMin) : '',
   );
+  const [reps, setReps] = useState(workout?.reps ? String(workout.reps) : '');
 
   const trimmed = name.trim();
   const canSave = trimmed.length > 0;
@@ -33,15 +35,11 @@ export function WorkoutForm({ weekday, workout, onClose }: WorkoutFormProps) {
     e.preventDefault();
     if (!canSave) return;
 
-    const parsedDuration = parseInt(duration, 10);
     const next: Workout = {
       id: workout?.id ?? crypto.randomUUID(),
       name: trimmed,
-      category,
-      durationMin:
-        Number.isFinite(parsedDuration) && parsedDuration > 0
-          ? parsedDuration
-          : undefined,
+      durationMin: parsePositiveInt(duration),
+      reps: parsePositiveInt(reps),
     };
 
     dispatch(
@@ -79,46 +77,45 @@ export function WorkoutForm({ weekday, workout, onClose }: WorkoutFormProps) {
           />
         </div>
 
-        <div className={styles.field}>
-          <span className={styles.label}>Kategorie</span>
-          <div className={styles.cats}>
-            {CATEGORIES.map((c) => {
-              const active = category === c.id;
-              const style = { '--dot': `var(${c.tokenName})` } as CSSProperties;
-              return (
-                <button
-                  key={c.id}
-                  type="button"
-                  style={style}
-                  className={`${styles.catBtn} ${active ? styles.catActive : ''}`}
-                  onClick={() => setCategory(c.id)}
-                  aria-pressed={active}
-                >
-                  <span className={styles.catDot} />
-                  {c.label}
-                </button>
-              );
-            })}
+        <div className={styles.metaRow}>
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="wf-duration">
+              Dauer (optional)
+            </label>
+            <div className={styles.unitInput}>
+              <input
+                id="wf-duration"
+                className={styles.input}
+                type="number"
+                inputMode="numeric"
+                min={1}
+                max={600}
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
+                placeholder="45"
+              />
+              <span className={styles.unit}>Min.</span>
+            </div>
           </div>
-        </div>
 
-        <div className={styles.field}>
-          <label className={styles.label} htmlFor="wf-duration">
-            Dauer (optional)
-          </label>
-          <div className={styles.durationRow}>
-            <input
-              id="wf-duration"
-              className={styles.input}
-              type="number"
-              inputMode="numeric"
-              min={1}
-              max={600}
-              value={duration}
-              onChange={(e) => setDuration(e.target.value)}
-              placeholder="45"
-            />
-            <span className={styles.unit}>Minuten</span>
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="wf-reps">
+              Wiederholungen (optional)
+            </label>
+            <div className={styles.unitInput}>
+              <input
+                id="wf-reps"
+                className={styles.input}
+                type="number"
+                inputMode="numeric"
+                min={1}
+                max={9999}
+                value={reps}
+                onChange={(e) => setReps(e.target.value)}
+                placeholder="12"
+              />
+              <span className={styles.unit}>Wdh.</span>
+            </div>
           </div>
         </div>
 

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { CategoryChip } from '../../components/Chip';
 import { useApp } from '../../store/AppContext';
 import type { LogEntry, Workout } from '../../store/types';
 import styles from './DailyView.module.css';
@@ -61,12 +60,21 @@ export function DailyWorkoutCard({ workout, entry, date }: Props) {
       <div className={styles.top}>
         <div>
           <div className={styles.name}>{workout.name}</div>
-          <div className={styles.meta}>
-            <CategoryChip category={workout.category} />
-            {workout.durationMin && (
-              <span className={styles.duration}>{workout.durationMin} Min.</span>
-            )}
-          </div>
+          {(workout.durationMin || workout.reps) && (
+            <div className={styles.meta}>
+              {workout.durationMin && (
+                <span className={styles.duration}>
+                  {workout.durationMin} Min.
+                </span>
+              )}
+              {workout.durationMin && workout.reps && (
+                <span className={styles.metaDot}>·</span>
+              )}
+              {workout.reps && (
+                <span className={styles.duration}>{workout.reps} Wdh.</span>
+              )}
+            </div>
+          )}
         </div>
         {status === 'complete' && (
           <span className={`${styles.statusMark} ${styles.markComplete}`}>

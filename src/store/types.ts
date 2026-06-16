@@ -1,20 +1,12 @@
 // Zentrale Datentypen der App. Alles wird lokal im Browser gehalten.
 
-export type Category =
-  | 'push'
-  | 'pull'
-  | 'legs'
-  | 'cardio'
-  | 'core'
-  | 'mobility'
-  | 'custom';
-
 export interface Workout {
   id: string;
   name: string;
-  category: Category;
   /** geschätzte Dauer in Minuten, optional */
   durationMin?: number;
+  /** Anzahl Wiederholungen, optional */
+  reps?: number;
 }
 
 /** Wochenplan: Schlüssel 0 = Montag … 6 = Sonntag. Leerer Tag = Ruhetag. */
@@ -27,7 +19,6 @@ export interface LogEntry {
   note?: string;
   /** Namens-Snapshot, damit der Verlauf stabil bleibt, falls der Plan später geändert wird */
   workoutName: string;
-  category: Category;
   /** ISO-Zeitstempel der letzten Änderung */
   updatedAt: string;
 }

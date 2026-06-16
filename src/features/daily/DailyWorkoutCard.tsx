@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useApp } from '../../store/AppContext';
+import { workoutMetaParts } from '../../lib/workout';
 import type { LogEntry, Workout } from '../../store/types';
 import styles from './DailyView.module.css';
 
@@ -60,19 +61,11 @@ export function DailyWorkoutCard({ workout, entry, date }: Props) {
       <div className={styles.top}>
         <div>
           <div className={styles.name}>{workout.name}</div>
-          {(workout.durationMin || workout.reps) && (
+          {workoutMetaParts(workout).length > 0 && (
             <div className={styles.meta}>
-              {workout.durationMin && (
-                <span className={styles.duration}>
-                  {workout.durationMin} Min.
-                </span>
-              )}
-              {workout.durationMin && workout.reps && (
-                <span className={styles.metaDot}>·</span>
-              )}
-              {workout.reps && (
-                <span className={styles.duration}>{workout.reps} Wdh.</span>
-              )}
+              <span className={styles.duration}>
+                {workoutMetaParts(workout).join(' · ')}
+              </span>
             </div>
           )}
         </div>

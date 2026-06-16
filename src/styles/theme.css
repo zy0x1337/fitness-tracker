@@ -1,0 +1,155 @@
+/*
+ * Design-Tokens — ein Ort für Farben, Spacing, Radien, Typo.
+ * Light-first: warmes Off-White/Beige statt reinem Weiß.
+ * Dark: schlicht, warmes Off-black, invertierte Tokens.
+ */
+
+:root {
+  /* Spacing — 4px-Basis */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* Radien — ruhig, nicht übertrieben rund */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  /* Typo */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
+  --font-display: 'Georgia', 'Iowan Old Style', 'Times New Roman', serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: 2.25rem;
+
+  /* weiche Schatten — sehr sparsam eingesetzt */
+  --shadow-sm: 0 1px 2px rgba(60, 50, 35, 0.04);
+  --shadow-md: 0 6px 24px -12px rgba(60, 50, 35, 0.18);
+  --shadow-lg: 0 18px 48px -20px rgba(40, 32, 22, 0.28);
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --maxw: 560px;
+}
+
+/* ---------- Light (primär) ---------- */
+:root,
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #f3efe6; /* warmes Off-White / dezentes Beige */
+  --bg-elevated: #f8f5ee;
+  --surface: #fbf9f3; /* Karten — leicht heller, „Papier" */
+  --surface-hover: #f4f0e7;
+
+  --border: rgba(60, 48, 30, 0.1); /* feine Hairline */
+  --border-strong: rgba(60, 48, 30, 0.16);
+
+  --text: #2a2723; /* warmes near-black */
+  --text-muted: #6f685c;
+  --text-faint: #9b9486;
+
+  --accent: #b95e3c; /* gedämpftes Terracotta */
+  --accent-hover: #a4512f;
+  --accent-soft: rgba(185, 94, 60, 0.12);
+  --accent-contrast: #fbf9f3;
+
+  --success: #5a7d52; /* gedämpftes Sage-Grün */
+  --success-soft: rgba(90, 125, 82, 0.14);
+
+  /* gedämpfte Kategorie-Töne */
+  --cat-push: #b95e3c;
+  --cat-pull: #5a7d52;
+  --cat-legs: #5b6f8c;
+  --cat-cardio: #b25563;
+  --cat-core: #b08436;
+  --cat-mobility: #4f8278;
+  --cat-custom: #7a7264;
+}
+
+/* ---------- Dark (sekundär, schlicht) ---------- */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #1a1816; /* warmes Off-black */
+  --bg-elevated: #211e1b;
+  --surface: #252220;
+  --surface-hover: #2c2926;
+
+  --border: rgba(255, 248, 235, 0.1);
+  --border-strong: rgba(255, 248, 235, 0.16);
+
+  --text: #ece6db;
+  --text-muted: #a59d8f;
+  --text-faint: #756e62;
+
+  --accent: #d27d5b;
+  --accent-hover: #dd8d6c;
+  --accent-soft: rgba(210, 125, 91, 0.16);
+  --accent-contrast: #1a1816;
+
+  --success: #84a87a;
+  --success-soft: rgba(132, 168, 122, 0.18);
+
+  --cat-push: #d27d5b;
+  --cat-pull: #84a87a;
+  --cat-legs: #8298b6;
+  --cat-cardio: #cd7d89;
+  --cat-core: #cda864;
+  --cat-mobility: #74aaa0;
+  --cat-custom: #a39b8d;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 6px 24px -12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 18px 48px -20px rgba(0, 0, 0, 0.6);
+}
+
+/* Folgt der Systemeinstellung, wenn der Nutzer „System" wählt. */
+@media (prefers-color-scheme: dark) {
+  :root[data-theme='system'] {
+    color-scheme: dark;
+
+    --bg: #1a1816;
+    --bg-elevated: #211e1b;
+    --surface: #252220;
+    --surface-hover: #2c2926;
+
+    --border: rgba(255, 248, 235, 0.1);
+    --border-strong: rgba(255, 248, 235, 0.16);
+
+    --text: #ece6db;
+    --text-muted: #a59d8f;
+    --text-faint: #756e62;
+
+    --accent: #d27d5b;
+    --accent-hover: #dd8d6c;
+    --accent-soft: rgba(210, 125, 91, 0.16);
+    --accent-contrast: #1a1816;
+
+    --success: #84a87a;
+    --success-soft: rgba(132, 168, 122, 0.18);
+
+    --cat-push: #d27d5b;
+    --cat-pull: #84a87a;
+    --cat-legs: #8298b6;
+    --cat-cardio: #cd7d89;
+    --cat-core: #cda864;
+    --cat-mobility: #74aaa0;
+    --cat-custom: #a39b8d;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 6px 24px -12px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 18px 48px -20px rgba(0, 0, 0, 0.6);
+  }
+}

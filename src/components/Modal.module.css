@@ -1,0 +1,73 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: color-mix(in srgb, #1a1410 45%, transparent);
+  backdrop-filter: blur(2px);
+  padding: var(--space-4);
+  animation: fade 0.18s var(--ease);
+}
+
+.sheet {
+  width: 100%;
+  max-width: var(--maxw);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-5);
+  animation: rise 0.22s var(--ease);
+  max-height: 90dvh;
+  overflow-y: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.title {
+  font-size: var(--text-xl);
+}
+
+.close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  transition: background-color 0.18s var(--ease), color 0.18s var(--ease);
+}
+
+.close:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* Auf größeren Screens mittig statt als Bottom-Sheet */
+@media (min-width: 640px) {
+  .overlay {
+    align-items: center;
+  }
+}

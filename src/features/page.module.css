@@ -1,0 +1,34 @@
+/* Gemeinsames Seitenlayout für alle Tab-Views. */
+
+.page {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-8);
+}
+
+.header {
+  margin-bottom: var(--space-6);
+}
+
+.title {
+  font-size: var(--text-3xl);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin-top: var(--space-2);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  max-width: 46ch;
+}
+
+/* Variante mit Eyebrow (Datum o.ä.) über dem Titel */
+.eyebrow {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
+}

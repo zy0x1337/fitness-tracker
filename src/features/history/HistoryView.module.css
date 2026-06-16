@@ -1,0 +1,114 @@
+.streak {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-6);
+}
+
+.streakIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.streakNum {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.streakLabel {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.days {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.dayDate {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.entries {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.entry {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.mark {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-top: 1px;
+}
+
+.markComplete {
+  color: var(--success);
+  background: var(--success-soft);
+}
+
+.markSkipped {
+  color: var(--text-faint);
+  background: var(--surface-hover);
+}
+
+.entryBody {
+  min-width: 0;
+  flex: 1;
+}
+
+.entryName {
+  font-weight: 600;
+}
+
+.entryStatus {
+  font-size: var(--text-xs);
+  color: var(--text-faint);
+}
+
+.entryNote {
+  margin-top: 6px;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-style: italic;
+  padding-left: var(--space-3);
+  border-left: 2px solid var(--border-strong);
+}

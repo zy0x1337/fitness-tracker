@@ -68,6 +68,9 @@
   --success: #5a7d52; /* gedämpftes Sage-Grün */
   --success-soft: rgba(90, 125, 82, 0.14);
 
+  --danger: #b25563; /* gedämpftes Rot */
+  --danger-soft: rgba(178, 85, 99, 0.12);
+
   /* gedämpfte Kategorie-Töne */
   --cat-push: #b95e3c;
   --cat-pull: #5a7d52;
@@ -101,6 +104,9 @@
 
   --success: #84a87a;
   --success-soft: rgba(132, 168, 122, 0.18);
+
+  --danger: #cd7d89;
+  --danger-soft: rgba(205, 125, 137, 0.18);
 
   --cat-push: #d27d5b;
   --cat-pull: #84a87a;

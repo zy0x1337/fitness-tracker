@@ -66,9 +66,9 @@
 /* dezent destruktiv */
 .danger {
   background: transparent;
-  color: var(--cat-cardio);
+  color: var(--danger);
   border-color: transparent;
 }
 .danger:hover {
-  background: color-mix(in srgb, var(--cat-cardio) 12%, transparent);
+  background: var(--danger-soft);
 }

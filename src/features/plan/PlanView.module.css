@@ -125,6 +125,10 @@
 }
 
 /* aufgeklapptes Übungs-Panel */
+.panelWrap {
+  overflow: hidden;
+}
+
 .panel {
   padding: 0 var(--space-4) var(--space-3)
     calc(var(--space-4) + 18px + var(--space-3));

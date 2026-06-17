@@ -1,6 +1,11 @@
 import { useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useApp } from '../../store/AppContext';
 import { exerciseCountLabel, exerciseMetaParts } from '../../lib/workout';
+import { IconCheck, IconChevron, IconNote, IconSkip } from '../../components/icons';
+import { collapseVariants, tapScale } from '../../lib/motion';
+import { randomEncouragement } from '../../lib/encouragements';
+import { Celebration } from './Celebration';
 import type { LogEntry, Workout } from '../../store/types';
 import styles from './DailyView.module.css';
 
@@ -10,38 +15,22 @@ interface Props {
   date: string;
 }
 
-const CheckIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-    <path
-      d="M5 12.5l4.2 4.2L19 7"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const SkipIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-    <path
-      d="M6 12h12"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
 export function DailyWorkoutCard({ workout, entry, date }: Props) {
   const { dispatch } = useApp();
+  const reduce = useReducedMotion();
   const status = entry?.status;
   const [noteOpen, setNoteOpen] = useState(Boolean(entry?.note));
   const [noteDraft, setNoteDraft] = useState(entry?.note ?? '');
   const [open, setOpen] = useState(false);
+  const [celebration, setCelebration] = useState<string | null>(null);
   const hasExercises = workout.exercises.length > 0;
 
   function setStatus(next: 'complete' | 'skipped') {
+    // Feier nur beim NEU-Abschließen (nicht beim Zurücksetzen/erneuten Tippen).
+    if (next === 'complete' && status !== 'complete') {
+      setCelebration(randomEncouragement());
+      navigator.vibrate?.(12);
+    }
     dispatch({ type: 'SET_STATUS', date, workout, status: next });
   }
 
@@ -60,6 +49,15 @@ export function DailyWorkoutCard({ workout, entry, date }: Props) {
 
   return (
     <div className={cardClass}>
+      <AnimatePresence>
+        {celebration && (
+          <Celebration
+            message={celebration}
+            onComplete={() => setCelebration(null)}
+          />
+        )}
+      </AnimatePresence>
+
       <div className={styles.top}>
         <div className={styles.headMain}>
           <div className={styles.name}>{workout.name}</div>
@@ -72,71 +70,70 @@ export function DailyWorkoutCard({ workout, entry, date }: Props) {
           >
             {exerciseCountLabel(workout)}
             {hasExercises && (
-              <svg
+              <IconChevron
+                size={16}
                 className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`}
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M6 9l6 6 6-6"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              />
             )}
           </button>
         </div>
         {status === 'complete' && (
           <span className={`${styles.statusMark} ${styles.markComplete}`}>
-            <CheckIcon />
+            <IconCheck size={18} />
           </span>
         )}
         {status === 'skipped' && (
           <span className={`${styles.statusMark} ${styles.markSkipped}`}>
-            <SkipIcon />
+            <IconSkip size={18} />
           </span>
         )}
       </div>
 
-      {open && hasExercises && (
-        <ul className={styles.exerciseList}>
-          {workout.exercises.map((ex) => {
-            const meta = exerciseMetaParts(ex);
-            return (
-              <li key={ex.id} className={styles.exerciseItem}>
-                <span className={styles.exerciseName}>{ex.name}</span>
-                {meta.length > 0 && (
-                  <span className={styles.exerciseMeta}>{meta.join(' · ')}</span>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      <AnimatePresence initial={false}>
+        {open && hasExercises && (
+          <motion.ul
+            className={styles.exerciseList}
+            variants={collapseVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            {workout.exercises.map((ex) => {
+              const meta = exerciseMetaParts(ex);
+              return (
+                <li key={ex.id} className={styles.exerciseItem}>
+                  <span className={styles.exerciseName}>{ex.name}</span>
+                  {meta.length > 0 && (
+                    <span className={styles.exerciseMeta}>{meta.join(' · ')}</span>
+                  )}
+                </li>
+              );
+            })}
+          </motion.ul>
+        )}
+      </AnimatePresence>
 
       <div className={styles.actions}>
-        <button
+        <motion.button
           type="button"
           className={`${styles.action} ${status === 'complete' ? styles.actionDone : ''}`}
           onClick={() => setStatus('complete')}
           aria-pressed={status === 'complete'}
+          whileTap={reduce ? undefined : tapScale}
         >
-          <CheckIcon />
+          <IconCheck size={18} />
           Erledigt
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           type="button"
           className={`${styles.action} ${status === 'skipped' ? styles.actionSkip : ''}`}
           onClick={() => setStatus('skipped')}
           aria-pressed={status === 'skipped'}
+          whileTap={reduce ? undefined : tapScale}
         >
-          <SkipIcon />
+          <IconSkip size={18} />
           Nicht erledigt
-        </button>
+        </motion.button>
       </div>
 
       <div className={styles.noteRow}>
@@ -156,14 +153,7 @@ export function DailyWorkoutCard({ workout, entry, date }: Props) {
             className={styles.noteToggle}
             onClick={() => setNoteOpen(true)}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 5v14M5 12h14"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-              />
-            </svg>
+            <IconNote size={16} />
             Notiz hinzufügen
           </button>
         )}

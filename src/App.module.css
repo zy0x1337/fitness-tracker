@@ -53,13 +53,6 @@
   background: var(--surface-hover);
 }
 
-.content {
-  animation: fadeIn 0.22s var(--ease);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
+.logo svg {
+  display: block;
 }

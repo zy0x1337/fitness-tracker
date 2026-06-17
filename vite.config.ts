@@ -15,8 +15,8 @@ export default defineConfig({
         description:
           'Privater, offline-first Fitness Tracker: eigener Wochenplan und tägliches Workout-Tracking.',
         lang: 'de',
-        theme_color: '#b95e3c',
-        background_color: '#f3efe6',
+        theme_color: '#3f5bd9',
+        background_color: '#f5f6f8',
         display: 'standalone',
         orientation: 'portrait',
         start_url: '/',

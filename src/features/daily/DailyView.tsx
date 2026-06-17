@@ -1,6 +1,9 @@
+import { motion } from 'framer-motion';
 import { useApp } from '../../store/AppContext';
 import { formatLongDate, todayISO, todayWeekday } from '../../lib/date';
 import { EmptyState } from '../../components/EmptyState';
+import { IconRest } from '../../components/icons';
+import { staggerContainer, staggerItem } from '../../lib/motion';
 import { DailyWorkoutCard } from './DailyWorkoutCard';
 import styles from './DailyView.module.css';
 import page from '../page.module.css';
@@ -30,46 +33,36 @@ export function DailyView({ onGoToPlan }: { onGoToPlan: () => void }) {
       </header>
 
       {workouts.length === 0 ? (
-        <EmptyState
-          icon={
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 3a6 6 0 0 0-6 6c0 4 6 9 6 9s6-5 6-9a6 6 0 0 0-6-6Z"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinejoin="round"
-                opacity="0.5"
-              />
-              <circle cx="12" cy="9" r="1.6" fill="currentColor" opacity="0.5" />
-            </svg>
-          }
-          title="Ruhetag"
-          text="Für heute ist kein Workout geplant. Erhol dich gut — oder ergänze deinen Wochenplan."
-        />
+        <>
+          <EmptyState
+            icon={<IconRest size={40} style={{ opacity: 0.55 }} />}
+            title="Ruhetag"
+            text="Für heute ist kein Workout geplant. Erhol dich gut — oder ergänze deinen Wochenplan."
+          />
+          <div style={{ textAlign: 'center' }}>
+            <button
+              type="button"
+              onClick={onGoToPlan}
+              className={page.eyebrow}
+              style={{ background: 'none', textDecoration: 'underline' }}
+            >
+              Zum Wochenplan
+            </button>
+          </div>
+        </>
       ) : (
-        <div className={styles.list}>
+        <motion.div
+          className={styles.list}
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+        >
           {workouts.map((w) => (
-            <DailyWorkoutCard
-              key={w.id}
-              workout={w}
-              entry={dayLog[w.id]}
-              date={date}
-            />
+            <motion.div key={w.id} variants={staggerItem}>
+              <DailyWorkoutCard workout={w} entry={dayLog[w.id]} date={date} />
+            </motion.div>
           ))}
-        </div>
-      )}
-
-      {workouts.length === 0 && (
-        <div style={{ textAlign: 'center' }}>
-          <button
-            type="button"
-            onClick={onGoToPlan}
-            className={page.eyebrow}
-            style={{ background: 'none', textDecoration: 'underline' }}
-          >
-            Zum Wochenplan
-          </button>
-        </div>
+        </motion.div>
       )}
     </div>
   );

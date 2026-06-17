@@ -22,12 +22,13 @@ body {
   text-rendering: optimizeLegibility;
   min-height: 100dvh;
   overflow-x: hidden;
-  /* dezenter, fast unsichtbarer Verlauf für mehr Wärme */
+  /* dezenter Verlauf + ein Hauch Akzent-Wash oben für moderne Tiefe */
   background-image: radial-gradient(
-    140% 100% at 50% 0%,
-    var(--bg-elevated) 0%,
-    var(--bg) 60%
-  );
+      120% 80% at 50% -10%,
+      var(--accent-soft) 0%,
+      transparent 55%
+    ),
+    radial-gradient(140% 100% at 50% 0%, var(--bg-elevated) 0%, var(--bg) 65%);
   background-attachment: fixed;
 }
 

@@ -1,7 +1,14 @@
 import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useApp } from '../../store/AppContext';
 import { WEEKDAY_LABELS, todayWeekday } from '../../lib/date';
 import { exerciseCountLabel, exerciseMetaParts } from '../../lib/workout';
+import { IconChevron, IconEdit, IconPlus } from '../../components/icons';
+import {
+  collapseVariants,
+  staggerContainer,
+  staggerItem,
+} from '../../lib/motion';
 import { WorkoutForm } from './WorkoutForm';
 import type { Workout } from '../../store/types';
 import styles from './PlanView.module.css';
@@ -37,11 +44,20 @@ export function PlanView() {
         </p>
       </header>
 
-      <div className={styles.days}>
+      <motion.div
+        className={styles.days}
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+      >
         {WEEKDAY_LABELS.map((label, weekday) => {
           const workouts = state.plan[weekday] ?? [];
           return (
-            <section key={weekday} className={styles.day}>
+            <motion.section
+              key={weekday}
+              className={styles.day}
+              variants={staggerItem}
+            >
               <div className={styles.dayHead}>
                 <span className={styles.today}>
                   <span className={styles.dayName}>{label}</span>
@@ -69,21 +85,10 @@ export function PlanView() {
                           onClick={() => toggle(w.id)}
                           aria-expanded={open}
                         >
-                          <svg
+                          <IconChevron
+                            size={18}
                             className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`}
-                            width="18"
-                            height="18"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                          >
-                            <path
-                              d="M6 9l6 6 6-6"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
+                          />
                           <span className={styles.itemMain}>
                             <span className={styles.itemName}>{w.name}</span>
                             <span className={styles.itemSub}>
@@ -97,50 +102,51 @@ export function PlanView() {
                           onClick={() => setEditor({ weekday, workout: w })}
                           aria-label={`${w.name} bearbeiten`}
                         >
-                          <svg
-                            width="18"
-                            height="18"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                          >
-                            <path
-                              d="M14.5 5.5l4 4M4 20h4L19 9a2.1 2.1 0 0 0-3-3L5 17v3Z"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
+                          <IconEdit size={18} />
                         </button>
                       </div>
 
-                      {open && (
-                        <div className={styles.panel}>
-                          {w.exercises.length === 0 ? (
-                            <p className={styles.panelEmpty}>
-                              Noch keine Übungen — über „Bearbeiten" hinzufügen.
-                            </p>
-                          ) : (
-                            <ul className={styles.exerciseList}>
-                              {w.exercises.map((ex) => {
-                                const meta = exerciseMetaParts(ex);
-                                return (
-                                  <li key={ex.id} className={styles.exerciseItem}>
-                                    <span className={styles.exerciseName}>
-                                      {ex.name}
-                                    </span>
-                                    {meta.length > 0 && (
-                                      <span className={styles.exerciseMeta}>
-                                        {meta.join(' · ')}
-                                      </span>
-                                    )}
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          )}
-                        </div>
-                      )}
+                      <AnimatePresence initial={false}>
+                        {open && (
+                          <motion.div
+                            className={styles.panelWrap}
+                            variants={collapseVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                          >
+                            <div className={styles.panel}>
+                              {w.exercises.length === 0 ? (
+                                <p className={styles.panelEmpty}>
+                                  Noch keine Übungen — über „Bearbeiten"
+                                  hinzufügen.
+                                </p>
+                              ) : (
+                                <ul className={styles.exerciseList}>
+                                  {w.exercises.map((ex) => {
+                                    const meta = exerciseMetaParts(ex);
+                                    return (
+                                      <li
+                                        key={ex.id}
+                                        className={styles.exerciseItem}
+                                      >
+                                        <span className={styles.exerciseName}>
+                                          {ex.name}
+                                        </span>
+                                        {meta.length > 0 && (
+                                          <span className={styles.exerciseMeta}>
+                                            {meta.join(' · ')}
+                                          </span>
+                                        )}
+                                      </li>
+                                    );
+                                  })}
+                                </ul>
+                              )}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   );
                 })}
@@ -150,29 +156,25 @@ export function PlanView() {
                   className={styles.addBtn}
                   onClick={() => setEditor({ weekday })}
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M12 5v14M5 12h14"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                    />
-                  </svg>
+                  <IconPlus size={18} />
                   Workout hinzufügen
                 </button>
               </div>
-            </section>
+            </motion.section>
           );
         })}
-      </div>
+      </motion.div>
 
-      {editor && (
-        <WorkoutForm
-          weekday={editor.weekday}
-          workout={editor.workout}
-          onClose={() => setEditor(null)}
-        />
-      )}
+      <AnimatePresence>
+        {editor && (
+          <WorkoutForm
+            key="editor"
+            weekday={editor.weekday}
+            workout={editor.workout}
+            onClose={() => setEditor(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

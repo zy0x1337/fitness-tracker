@@ -21,6 +21,8 @@
 }
 
 .tab {
+  position: relative;
+  isolation: isolate;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -33,7 +35,7 @@
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.01em;
-  transition: color 0.18s var(--ease), background-color 0.18s var(--ease);
+  transition: color 0.18s var(--ease);
 }
 
 .tab:hover {
@@ -42,9 +44,23 @@
 
 .active {
   color: var(--accent);
+}
+
+.pill {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--radius-md);
   background: var(--accent-soft);
 }
 
 .icon {
+  position: relative;
+  z-index: 1;
   display: block;
+}
+
+.label {
+  position: relative;
+  z-index: 1;
 }

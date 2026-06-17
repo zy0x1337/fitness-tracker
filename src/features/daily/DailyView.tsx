@@ -26,9 +26,20 @@ export function DailyView({ onGoToPlan }: { onGoToPlan: () => void }) {
         <p className={page.eyebrow}>{formatLongDate(new Date())}</p>
         <h1 className={page.title}>Heute</h1>
         {workouts.length > 0 && (
-          <div className={styles.summary}>
-            <span className={styles.summaryDot} />
-            {doneCount} von {workouts.length} erledigt
+          <div className={styles.progress}>
+            <div className={styles.segments} aria-hidden="true">
+              {workouts.map((w, i) => (
+                <span
+                  key={w.id}
+                  className={`${styles.segment} ${
+                    i < doneCount ? styles.segmentOn : ''
+                  }`}
+                />
+              ))}
+            </div>
+            <span className={styles.progressLabel}>
+              <b>{doneCount}</b>&nbsp;/&nbsp;{workouts.length} erledigt
+            </span>
           </div>
         )}
       </header>

@@ -56,6 +56,10 @@ button {
   cursor: pointer;
   background: none;
   border: none;
+  /* Verhindert das rechteckige Touch-Highlight auf Mobilgeräten und das
+     300ms-Tap-Delay/Doppeltipp-Zoom. */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 input,

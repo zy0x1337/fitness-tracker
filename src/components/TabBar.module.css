@@ -14,18 +14,40 @@
 }
 
 .inner {
+  position: relative;
   display: flex;
-  gap: var(--space-1);
+  gap: var(--tab-gap);
   width: 100%;
   max-width: var(--maxw);
+  --tab-gap: var(--space-1);
+}
+
+/* Gleitende Pille: dauerhaft vorhanden, gleiche Breite wie eine Spalte,
+   verschiebt sich nur per translateX. Reine Transform-Animation → smooth,
+   GPU-kompositiert, kein Border-Radius-Verzug, kein Aufblitzen. */
+.pill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  width: calc(
+    (100% - (var(--tab-count) - 1) * var(--tab-gap)) / var(--tab-count)
+  );
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+  transform: translateX(
+    calc(var(--active-index) * (100% + var(--tab-gap)))
+  );
+  transition: transform 0.34s var(--ease);
+  will-change: transform;
 }
 
 .tab {
   position: relative;
-  isolation: isolate;
-  /* flex-basis: 0 → alle Tabs exakt gleich breit, unabhängig vom Label.
-     Dadurch verschiebt sich die Pille nur (kein horizontales Skalieren),
-     was das kurze „eckige" Aufblitzen beim Tab-Wechsel verhindert. */
+  z-index: 1;
+  /* flex-basis: 0 → alle Tabs exakt gleich breit (deckungsgleich mit der
+     Pillenbreite), unabhängig vom Label. */
   flex: 1 1 0;
   min-width: 0;
   display: flex;
@@ -34,7 +56,6 @@
   gap: 3px;
   padding: var(--space-2) var(--space-1);
   min-height: 52px;
-  border-radius: var(--radius-md);
   color: var(--text-faint);
   font-size: 0.7rem;
   font-weight: 600;
@@ -50,25 +71,19 @@
   color: var(--accent);
 }
 
-.pill {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: var(--radius-md);
-  background: var(--accent-soft);
-}
-
 .icon {
-  position: relative;
-  z-index: 1;
   display: block;
 }
 
 .label {
-  position: relative;
-  z-index: 1;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill {
+    transition: none;
+  }
 }

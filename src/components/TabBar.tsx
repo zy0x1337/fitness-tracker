@@ -1,7 +1,5 @@
-import type { ComponentType } from 'react';
-import { motion } from 'framer-motion';
+import type { ComponentType, CSSProperties } from 'react';
 import { IconHistory, IconPlan, IconToday, type IconProps } from './icons';
-import { springSoft } from '../lib/motion';
 import styles from './TabBar.module.css';
 
 export type TabId = 'daily' | 'plan' | 'history';
@@ -24,9 +22,24 @@ interface TabBarProps {
 }
 
 export function TabBar({ active, onChange }: TabBarProps) {
+  const activeIndex = Math.max(
+    0,
+    TABS.findIndex((t) => t.id === active),
+  );
+
+  // Die Pille ist genau ein dauerhaft vorhandenes Element und gleitet rein per
+  // CSS-Transform (translateX). Position ergibt sich deterministisch aus dem
+  // aktiven Index und der gleichen Spaltenbreite — kein Layout-Projection,
+  // kein Mount/Unmount, daher kein „eckiges" Aufblitzen (auch auf Mobile).
+  const innerStyle = {
+    '--tab-count': TABS.length,
+    '--active-index': activeIndex,
+  } as CSSProperties;
+
   return (
     <nav className={styles.bar}>
-      <div className={styles.inner}>
+      <div className={styles.inner} style={innerStyle}>
+        <span className={styles.pill} aria-hidden="true" />
         {TABS.map(({ id, label, Icon }) => {
           const isActive = active === id;
           return (
@@ -37,14 +50,6 @@ export function TabBar({ active, onChange }: TabBarProps) {
               onClick={() => onChange(id)}
               aria-current={isActive ? 'page' : undefined}
             >
-              {isActive && (
-                <motion.span
-                  layoutId="tab-pill"
-                  className={styles.pill}
-                  style={{ borderRadius: 12 }}
-                  transition={springSoft}
-                />
-              )}
               <span className={styles.icon}>
                 <Icon size={22} />
               </span>

@@ -199,6 +199,12 @@
   border-color: var(--accent);
 }
 
+.emptyAction {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-4);
+}
+
 .summary {
   display: flex;
   align-items: center;

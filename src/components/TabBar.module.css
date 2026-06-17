@@ -23,7 +23,11 @@
 .tab {
   position: relative;
   isolation: isolate;
-  flex: 1;
+  /* flex-basis: 0 → alle Tabs exakt gleich breit, unabhängig vom Label.
+     Dadurch verschiebt sich die Pille nur (kein horizontales Skalieren),
+     was das kurze „eckige" Aufblitzen beim Tab-Wechsel verhindert. */
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,4 +67,8 @@
 .label {
   position: relative;
   z-index: 1;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

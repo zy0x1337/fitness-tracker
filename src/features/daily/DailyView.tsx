@@ -2,7 +2,8 @@ import { motion } from 'framer-motion';
 import { useApp } from '../../store/AppContext';
 import { formatLongDate, todayISO, todayWeekday } from '../../lib/date';
 import { EmptyState } from '../../components/EmptyState';
-import { IconRest } from '../../components/icons';
+import { Button } from '../../components/Button';
+import { IconPlan, IconRest } from '../../components/icons';
 import { staggerContainer, staggerItem } from '../../lib/motion';
 import { DailyWorkoutCard } from './DailyWorkoutCard';
 import styles from './DailyView.module.css';
@@ -39,15 +40,11 @@ export function DailyView({ onGoToPlan }: { onGoToPlan: () => void }) {
             title="Ruhetag"
             text="Für heute ist kein Workout geplant. Erhol dich gut — oder ergänze deinen Wochenplan."
           />
-          <div style={{ textAlign: 'center' }}>
-            <button
-              type="button"
-              onClick={onGoToPlan}
-              className={page.eyebrow}
-              style={{ background: 'none', textDecoration: 'underline' }}
-            >
+          <div className={styles.emptyAction}>
+            <Button type="button" variant="primary" onClick={onGoToPlan}>
+              <IconPlan size={18} />
               Zum Wochenplan
-            </button>
+            </Button>
           </div>
         </>
       ) : (

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useApp } from '../../store/AppContext';
-import { workoutMetaParts } from '../../lib/workout';
+import { exerciseCountLabel, exerciseMetaParts } from '../../lib/workout';
 import type { LogEntry, Workout } from '../../store/types';
 import styles from './DailyView.module.css';
 
@@ -38,6 +38,8 @@ export function DailyWorkoutCard({ workout, entry, date }: Props) {
   const status = entry?.status;
   const [noteOpen, setNoteOpen] = useState(Boolean(entry?.note));
   const [noteDraft, setNoteDraft] = useState(entry?.note ?? '');
+  const [open, setOpen] = useState(false);
+  const hasExercises = workout.exercises.length > 0;
 
   function setStatus(next: 'complete' | 'skipped') {
     dispatch({ type: 'SET_STATUS', date, workout, status: next });
@@ -59,15 +61,34 @@ export function DailyWorkoutCard({ workout, entry, date }: Props) {
   return (
     <div className={cardClass}>
       <div className={styles.top}>
-        <div>
+        <div className={styles.headMain}>
           <div className={styles.name}>{workout.name}</div>
-          {workoutMetaParts(workout).length > 0 && (
-            <div className={styles.meta}>
-              <span className={styles.duration}>
-                {workoutMetaParts(workout).join(' · ')}
-              </span>
-            </div>
-          )}
+          <button
+            type="button"
+            className={styles.disclosure}
+            onClick={() => hasExercises && setOpen((v) => !v)}
+            aria-expanded={hasExercises ? open : undefined}
+            disabled={!hasExercises}
+          >
+            {exerciseCountLabel(workout)}
+            {hasExercises && (
+              <svg
+                className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`}
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M6 9l6 6 6-6"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
+          </button>
         </div>
         {status === 'complete' && (
           <span className={`${styles.statusMark} ${styles.markComplete}`}>
@@ -80,6 +101,22 @@ export function DailyWorkoutCard({ workout, entry, date }: Props) {
           </span>
         )}
       </div>
+
+      {open && hasExercises && (
+        <ul className={styles.exerciseList}>
+          {workout.exercises.map((ex) => {
+            const meta = exerciseMetaParts(ex);
+            return (
+              <li key={ex.id} className={styles.exerciseItem}>
+                <span className={styles.exerciseName}>{ex.name}</span>
+                {meta.length > 0 && (
+                  <span className={styles.exerciseMeta}>{meta.join(' · ')}</span>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      )}
 
       <div className={styles.actions}>
         <button

@@ -84,8 +84,75 @@
 
 .unit {
   color: var(--text-muted);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   white-space: nowrap;
+}
+
+/* ---- Übungsliste ---- */
+.exercises {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.exercise {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.exerciseHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.exerciseHead .input {
+  flex: 1;
+}
+
+.removeBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  color: var(--text-faint);
+  transition: background-color 0.16s var(--ease), color 0.16s var(--ease);
+}
+
+.removeBtn:hover {
+  color: var(--danger);
+  background: var(--danger-soft);
+}
+
+.addExercise {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition: all 0.16s var(--ease);
+}
+
+.addExercise:hover {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  background: var(--accent-soft);
 }
 
 .actions {

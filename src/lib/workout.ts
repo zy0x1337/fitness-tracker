@@ -1,15 +1,22 @@
-import type { Workout } from '../store/types';
+import type { Exercise, Workout } from '../store/types';
 
 /**
- * Liefert die gesetzten Metadaten eines Workouts als kurze Textbausteine
- * (Dauer, Sätze, Wiederholungen) — nur, was tatsächlich gesetzt ist.
+ * Liefert die gesetzten Metadaten einer Übung als kurze Textbausteine
+ * (Sätze, Wiederholungen, Dauer) — nur, was tatsächlich gesetzt ist.
  */
-export function workoutMetaParts(workout: Workout): string[] {
+export function exerciseMetaParts(exercise: Exercise): string[] {
   const parts: string[] = [];
-  if (workout.durationMin) parts.push(`${workout.durationMin} Min.`);
-  if (workout.sets) {
-    parts.push(`${workout.sets} ${workout.sets === 1 ? 'Satz' : 'Sätze'}`);
+  if (exercise.sets) {
+    parts.push(`${exercise.sets} ${exercise.sets === 1 ? 'Satz' : 'Sätze'}`);
   }
-  if (workout.reps) parts.push(`${workout.reps} Wdh.`);
+  if (exercise.reps) parts.push(`${exercise.reps} Wdh.`);
+  if (exercise.durationMin) parts.push(`${exercise.durationMin} Min.`);
   return parts;
+}
+
+/** „3 Übungen" / „1 Übung" / „Keine Übungen". */
+export function exerciseCountLabel(workout: Workout): string {
+  const n = workout.exercises.length;
+  if (n === 0) return 'Keine Übungen';
+  return `${n} ${n === 1 ? 'Übung' : 'Übungen'}`;
 }

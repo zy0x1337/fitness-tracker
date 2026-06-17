@@ -50,28 +50,37 @@
 }
 
 .item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-  width: 100%;
-  padding: var(--space-3) var(--space-4);
-  text-align: left;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  transition: border-color 0.18s var(--ease), background-color 0.18s var(--ease);
+  overflow: hidden;
+  transition: border-color 0.18s var(--ease);
 }
 
 .item:hover {
   border-color: var(--border-strong);
-  background: var(--surface-hover);
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.itemToggle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-3) var(--space-2) var(--space-3) var(--space-4);
+  text-align: left;
 }
 
 .itemMain {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 3px;
   min-width: 0;
 }
 
@@ -82,20 +91,76 @@
   text-overflow: ellipsis;
 }
 
-.itemMeta {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  flex-wrap: wrap;
-}
-
-.duration {
+.itemSub {
   font-size: var(--text-xs);
   color: var(--text-muted);
 }
 
 .chevron {
   color: var(--text-faint);
+  flex-shrink: 0;
+  transition: transform 0.2s var(--ease);
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.editBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  margin-right: var(--space-1);
+  border-radius: var(--radius-md);
+  color: var(--text-faint);
+  transition: color 0.16s var(--ease), background-color 0.16s var(--ease);
+}
+
+.editBtn:hover {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* aufgeklapptes Übungs-Panel */
+.panel {
+  padding: 0 var(--space-4) var(--space-3)
+    calc(var(--space-4) + 18px + var(--space-3));
+}
+
+.panelEmpty {
+  font-size: var(--text-sm);
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+.exerciseList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.exerciseItem {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--border);
+}
+
+.exerciseName {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  min-width: 0;
+}
+
+.exerciseMeta {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  white-space: nowrap;
   flex-shrink: 0;
 }
 

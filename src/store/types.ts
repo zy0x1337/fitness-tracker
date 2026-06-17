@@ -1,6 +1,6 @@
 // Zentrale Datentypen der App. Alles wird lokal im Browser gehalten.
 
-export interface Workout {
+export interface Exercise {
   id: string;
   name: string;
   /** geschätzte Dauer in Minuten, optional */
@@ -9,6 +9,12 @@ export interface Workout {
   sets?: number;
   /** Anzahl Wiederholungen, optional */
   reps?: number;
+}
+
+export interface Workout {
+  id: string;
+  name: string;
+  exercises: Exercise[];
 }
 
 /** Wochenplan: Schlüssel 0 = Montag … 6 = Sonntag. Leerer Tag = Ruhetag. */
@@ -37,7 +43,7 @@ export interface AppState {
   theme: ThemePref;
 }
 
-export const STATE_VERSION = 1;
+export const STATE_VERSION = 2;
 
 export function createEmptyState(): AppState {
   return {

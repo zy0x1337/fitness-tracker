@@ -135,9 +135,10 @@ export const IconMonitor = (p: IconProps) => (
   </Icon>
 );
 
-/** Wortbild-Marke (Hantel) — passt zu app-icon.svg / favicon.svg. */
+/** Wortbild-Marke (Herz mit Pulslinie) — passt zu app-icon.svg / favicon.svg. */
 export const LogoMark = (p: IconProps) => (
-  <Icon strokeWidth={2} {...p}>
-    <path d="M9 12h6M9 9.4v5.2M15 9.4v5.2M6.4 10.6v2.8M17.6 10.6v2.8" />
+  <Icon strokeWidth={1.9} {...p}>
+    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+    <path d="M3.4 12H9l.7-1.4 2 4.6 2-7 1.5 3.8h5.4" />
   </Icon>
 );

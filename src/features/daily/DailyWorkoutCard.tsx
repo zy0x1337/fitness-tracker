@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useApp } from '../../store/AppContext';
-import { exerciseCountLabel, exerciseMetaParts } from '../../lib/workout';
+import { exerciseMetaParts, workoutSummary } from '../../lib/workout';
 import { IconCheck, IconChevron, IconNote, IconSkip } from '../../components/icons';
 import { collapseVariants, tapScale } from '../../lib/motion';
-import { randomEncouragement } from '../../lib/encouragements';
 import { Celebration } from './Celebration';
 import type { LogEntry, Workout } from '../../store/types';
 import styles from './DailyView.module.css';
@@ -22,13 +21,13 @@ export function DailyWorkoutCard({ workout, entry, date }: Props) {
   const [noteOpen, setNoteOpen] = useState(Boolean(entry?.note));
   const [noteDraft, setNoteDraft] = useState(entry?.note ?? '');
   const [open, setOpen] = useState(false);
-  const [celebration, setCelebration] = useState<string | null>(null);
+  const [celebrate, setCelebrate] = useState(false);
   const hasExercises = workout.exercises.length > 0;
 
   function setStatus(next: 'complete' | 'skipped') {
     // Feier nur beim NEU-Abschließen (nicht beim Zurücksetzen/erneuten Tippen).
     if (next === 'complete' && status !== 'complete') {
-      setCelebration(randomEncouragement());
+      setCelebrate(true);
       navigator.vibrate?.(12);
     }
     dispatch({ type: 'SET_STATUS', date, workout, status: next });
@@ -50,12 +49,7 @@ export function DailyWorkoutCard({ workout, entry, date }: Props) {
   return (
     <div className={cardClass}>
       <AnimatePresence>
-        {celebration && (
-          <Celebration
-            message={celebration}
-            onComplete={() => setCelebration(null)}
-          />
-        )}
+        {celebrate && <Celebration onComplete={() => setCelebrate(false)} />}
       </AnimatePresence>
 
       <div className={styles.top}>
@@ -68,7 +62,7 @@ export function DailyWorkoutCard({ workout, entry, date }: Props) {
             aria-expanded={hasExercises ? open : undefined}
             disabled={!hasExercises}
           >
-            {exerciseCountLabel(workout)}
+            {workoutSummary(workout)}
             {hasExercises && (
               <IconChevron
                 size={16}

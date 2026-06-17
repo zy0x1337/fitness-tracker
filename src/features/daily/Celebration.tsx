@@ -1,11 +1,10 @@
 import { useEffect, useMemo } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { IconCheck } from '../../components/icons';
-import { springPop, springSoft } from '../../lib/motion';
+import { springPop } from '../../lib/motion';
 import styles from './Celebration.module.css';
 
 interface CelebrationProps {
-  message: string;
   onComplete: () => void;
 }
 
@@ -35,13 +34,13 @@ function makeParticles(count: number): Particle[] {
   });
 }
 
-export function Celebration({ message, onComplete }: CelebrationProps) {
+export function Celebration({ onComplete }: CelebrationProps) {
   const reduce = useReducedMotion();
   const particles = useMemo(() => (reduce ? [] : makeParticles(12)), [reduce]);
 
   // Selbst-Abbau nach Ablauf der Animation.
   useEffect(() => {
-    const t = setTimeout(onComplete, reduce ? 650 : 1050);
+    const t = setTimeout(onComplete, reduce ? 600 : 950);
     return () => clearTimeout(t);
   }, [onComplete, reduce]);
 
@@ -61,35 +60,24 @@ export function Celebration({ message, onComplete }: CelebrationProps) {
         />
       )}
 
-      <div className={styles.center}>
-        <motion.span
-          className={styles.badge}
-          initial={{ scale: 0, rotate: -14, opacity: 0 }}
-          animate={{ scale: 1, rotate: 0, opacity: 1 }}
-          transition={springPop}
-        >
-          <IconCheck size={26} />
-          {particles.map((p, i) => (
-            <motion.span
-              key={i}
-              className={styles.particle}
-              style={{ width: p.size, height: p.size, background: p.color }}
-              initial={{ x: 0, y: 0, opacity: 1, scale: 0.5 }}
-              animate={{ x: p.x, y: p.y, opacity: 0, scale: 1 }}
-              transition={{ duration: p.duration, ease: 'easeOut', delay: p.delay }}
-            />
-          ))}
-        </motion.span>
-
-        <motion.span
-          className={styles.msg}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ ...springSoft, delay: 0.08 }}
-        >
-          {message}
-        </motion.span>
-      </div>
+      <motion.span
+        className={styles.badge}
+        initial={{ scale: 0, rotate: -14, opacity: 0 }}
+        animate={{ scale: 1, rotate: 0, opacity: 1 }}
+        transition={springPop}
+      >
+        <IconCheck size={26} />
+        {particles.map((p, i) => (
+          <motion.span
+            key={i}
+            className={styles.particle}
+            style={{ width: p.size, height: p.size, background: p.color }}
+            initial={{ x: 0, y: 0, opacity: 1, scale: 0.5 }}
+            animate={{ x: p.x, y: p.y, opacity: 0, scale: 1 }}
+            transition={{ duration: p.duration, ease: 'easeOut', delay: p.delay }}
+          />
+        ))}
+      </motion.span>
     </motion.div>
   );
 }

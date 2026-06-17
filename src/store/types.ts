@@ -15,6 +15,11 @@ export interface Workout {
   id: string;
   name: string;
   exercises: Exercise[];
+  /**
+   * Optionale manuelle Gesamtdauer in Minuten. Wenn gesetzt, überschreibt sie
+   * die automatische Summe aus den Übungs-Dauern.
+   */
+  durationMin?: number;
 }
 
 /** Wochenplan: Schlüssel 0 = Montag … 6 = Sonntag. Leerer Tag = Ruhetag. */

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useApp } from '../../store/AppContext';
 import { WEEKDAY_LABELS, todayWeekday } from '../../lib/date';
-import { exerciseCountLabel, exerciseMetaParts } from '../../lib/workout';
+import { exerciseMetaParts, workoutSummary } from '../../lib/workout';
 import { IconChevron, IconEdit, IconPlus } from '../../components/icons';
 import {
   collapseVariants,
@@ -92,7 +92,7 @@ export function PlanView() {
                           <span className={styles.itemMain}>
                             <span className={styles.itemName}>{w.name}</span>
                             <span className={styles.itemSub}>
-                              {exerciseCountLabel(w)}
+                              {workoutSummary(w)}
                             </span>
                           </span>
                         </button>

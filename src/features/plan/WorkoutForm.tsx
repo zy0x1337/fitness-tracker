@@ -49,9 +49,18 @@ export function WorkoutForm({ weekday, workout, onClose }: WorkoutFormProps) {
   const [exercises, setExercises] = useState<DraftExercise[]>(
     workout?.exercises.length ? workout.exercises.map(toDraft) : [emptyDraft()],
   );
+  const [totalDuration, setTotalDuration] = useState(
+    workout?.durationMin ? String(workout.durationMin) : '',
+  );
 
   const trimmed = name.trim();
   const canSave = trimmed.length > 0;
+
+  // Automatische Summe der Übungs-Dauern (als Platzhalter/Fallback).
+  const autoDuration = exercises.reduce(
+    (sum, ex) => sum + (parsePositiveInt(ex.duration) ?? 0),
+    0,
+  );
 
   function updateExercise(id: string, patch: Partial<DraftExercise>) {
     setExercises((list) =>
@@ -87,6 +96,7 @@ export function WorkoutForm({ weekday, workout, onClose }: WorkoutFormProps) {
       id: workout?.id ?? crypto.randomUUID(),
       name: trimmed,
       exercises: cleaned,
+      durationMin: parsePositiveInt(totalDuration),
     };
 
     dispatch(
@@ -214,6 +224,31 @@ export function WorkoutForm({ weekday, workout, onClose }: WorkoutFormProps) {
               Übung hinzufügen
             </button>
           </div>
+        </div>
+
+        <div className={styles.field}>
+          <label className={styles.label} htmlFor="wf-total">
+            Gesamtdauer (optional)
+          </label>
+          <div className={styles.control}>
+            <input
+              id="wf-total"
+              className={styles.controlInput}
+              type="number"
+              inputMode="numeric"
+              min={1}
+              max={600}
+              value={totalDuration}
+              onChange={(e) => setTotalDuration(e.target.value)}
+              placeholder={autoDuration > 0 ? String(autoDuration) : '45'}
+            />
+            <span className={styles.unit}>Min.</span>
+          </div>
+          <span className={styles.hint}>
+            {autoDuration > 0
+              ? `Automatisch aus den Übungen: ${autoDuration} Min. — leer lassen oder überschreiben.`
+              : 'Leer lassen für automatische Berechnung aus den Übungs-Dauern.'}
+          </span>
         </div>
 
         <div className={styles.actions}>

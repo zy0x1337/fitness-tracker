@@ -6,13 +6,10 @@ import { mkdirSync } from 'node:fs';
 const OUT = 'public';
 mkdirSync(OUT, { recursive: true });
 
-// Hantel-Marke, mittig auf 512er-Grid (symmetrisch um 256).
-const STROKE = `<g fill="none" stroke="#ffffff" stroke-width="34" stroke-linecap="round">
-  <path d="M196 256h120"/>
-  <path d="M196 212v88"/>
-  <path d="M316 212v88"/>
-  <path d="M156 228v56"/>
-  <path d="M356 228v56"/>
+// Herz-mit-Pulslinie-Marke: 24er-Grid-Pfade, mittig auf 512er-Grid skaliert.
+const STROKE = `<g transform="translate(88 88) scale(14)" fill="none" stroke="#ffffff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+  <path d="M3.4 12H9l.7-1.4 2 4.6 2-7 1.5 3.8h5.4"/>
 </g>`;
 
 const GRAD = `<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, type CSSProperties } from 'react';
 import { motion } from 'framer-motion';
 import { useApp } from '../../store/AppContext';
 import { formatShortFromISO, isoDaysAgo, todayISO } from '../../lib/date';
@@ -49,8 +49,13 @@ export function HistoryView() {
       </header>
 
       <div className={styles.streak}>
-        <span className={styles.streakIcon}>
-          <IconFlame size={26} />
+        <span
+          className={styles.streakRing}
+          style={{ '--p': Math.min(streak, 7) * (100 / 7) } as CSSProperties}
+        >
+          <span className={styles.streakIcon}>
+            <IconFlame size={28} />
+          </span>
         </span>
         <div>
           <motion.div
@@ -60,7 +65,10 @@ export function HistoryView() {
             animate={{ scale: 1, opacity: 1 }}
             transition={springPop}
           >
-            {streak} {streak === 1 ? 'Tag' : 'Tage'}
+            {streak}
+            <span className={styles.streakUnit}>
+              {streak === 1 ? 'Tag' : 'Tage'}
+            </span>
           </motion.div>
           <div className={styles.streakLabel}>
             {streak > 0 ? 'aktuelle Serie' : 'Noch keine Serie — leg heute los.'}

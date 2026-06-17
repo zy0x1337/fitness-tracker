@@ -15,17 +15,20 @@
   --space-7: 48px;
   --space-8: 64px;
 
-  /* Radien — ruhig, nicht übertrieben rund */
+  /* Radien — Container weicher, innere Elemente straffer */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 18px;
+  --radius-xl: 26px;
   --radius-pill: 999px;
 
-  /* Typo */
-  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
-    Helvetica, Arial, sans-serif;
-  --font-display: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
-    sans-serif;
+  /* Typo — Geist (selbst gehostet) mit System-Fallback */
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-display: 'Geist Variable', ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', Menlo,
+    Consolas, monospace;
 
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
@@ -34,6 +37,12 @@
   --text-xl: 1.375rem;
   --text-2xl: 1.75rem;
   --text-3xl: 2.25rem;
+  --text-4xl: 2.85rem;
+
+  /* Tracking */
+  --track-tight: -0.03em;
+  --track-snug: -0.015em;
+  --track-label: 0.04em;
 
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --maxw: 560px;
@@ -51,10 +60,10 @@
   --dk-text-muted: #9aa4b2;
   --dk-text-faint: #69727f;
 
-  --dk-accent: #7c93ff;
-  --dk-accent-hover: #93a6ff;
-  --dk-accent-soft: rgba(124, 147, 255, 0.16);
-  --dk-accent-contrast: #0f1217;
+  --dk-accent: #8e9dff;
+  --dk-accent-hover: #a4b0ff;
+  --dk-accent-soft: rgba(142, 157, 255, 0.16);
+  --dk-accent-contrast: #0c0f16;
 
   --dk-success: #34d399;
   --dk-success-soft: rgba(52, 211, 153, 0.16);
@@ -62,9 +71,12 @@
   --dk-danger: #fb7185;
   --dk-danger-soft: rgba(251, 113, 133, 0.16);
 
-  --dk-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
-  --dk-shadow-md: 0 6px 24px -12px rgba(0, 0, 0, 0.55);
-  --dk-shadow-lg: 0 18px 48px -20px rgba(0, 0, 0, 0.65);
+  /* getönte Schatten — tiefes Indigo-Schwarz statt neutralem Schwarz */
+  --dk-shadow-sm: 0 1px 2px rgba(6, 8, 18, 0.5);
+  --dk-shadow-md: 0 8px 28px -14px rgba(6, 8, 20, 0.7);
+  --dk-shadow-lg: 0 22px 54px -22px rgba(4, 6, 18, 0.8);
+  /* feine Innenkante für Glasflächen (edge refraction) */
+  --dk-edge: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 /* ---------- Light (primär) ---------- */
@@ -84,21 +96,23 @@
   --text-muted: #5b6675;
   --text-faint: #97a0ad;
 
-  --accent: #3f5bd9; /* klares, kühles Indigo */
-  --accent-hover: #3349bf;
-  --accent-soft: rgba(63, 91, 217, 0.1);
+  --accent: #3a4ce0; /* elektrisches, entsättigtes Cobalt-Indigo */
+  --accent-hover: #2f3fc4;
+  --accent-soft: rgba(58, 76, 224, 0.1);
   --accent-contrast: #ffffff;
 
-  --success: #15a37f; /* kühles Smaragd-Grün */
-  --success-soft: rgba(21, 163, 127, 0.12);
+  --success: #12a07c; /* kühles Smaragd-Grün */
+  --success-soft: rgba(18, 160, 124, 0.12);
 
   --danger: #e11d48;
   --danger-soft: rgba(225, 29, 72, 0.1);
 
-  /* weiche, kühl getönte Schatten — sparsam */
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 6px 24px -12px rgba(15, 23, 42, 0.18);
-  --shadow-lg: 0 18px 48px -20px rgba(15, 23, 42, 0.26);
+  /* getönte Schatten — kühles Slate-Blau statt neutralem Schwarz */
+  --shadow-sm: 0 1px 2px rgba(30, 41, 99, 0.06);
+  --shadow-md: 0 8px 28px -14px rgba(30, 41, 99, 0.2);
+  --shadow-lg: 0 22px 54px -22px rgba(24, 33, 84, 0.26);
+  /* feine Innenkante für Glasflächen (edge refraction) */
+  --edge: inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 /* ---------- Dark (explizit gewählt) ---------- */
@@ -125,6 +139,7 @@
   --shadow-sm: var(--dk-shadow-sm);
   --shadow-md: var(--dk-shadow-md);
   --shadow-lg: var(--dk-shadow-lg);
+  --edge: var(--dk-edge);
 }
 
 /* ---------- Dark (per System, wenn „System" gewählt) ---------- */
@@ -152,5 +167,6 @@
     --shadow-sm: var(--dk-shadow-sm);
     --shadow-md: var(--dk-shadow-md);
     --shadow-lg: var(--dk-shadow-lg);
+    --edge: var(--dk-edge);
   }
 }

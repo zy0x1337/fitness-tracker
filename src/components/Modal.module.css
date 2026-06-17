@@ -5,10 +5,9 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  background: color-mix(in srgb, #1a1410 45%, transparent);
-  backdrop-filter: blur(2px);
+  background: color-mix(in srgb, #0b1020 50%, transparent);
+  backdrop-filter: blur(3px);
   padding: var(--space-4);
-  animation: fade 0.18s var(--ease);
 }
 
 .sheet {
@@ -19,7 +18,6 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   padding: var(--space-5);
-  animation: rise 0.22s var(--ease);
   max-height: 90dvh;
   overflow-y: auto;
 }
@@ -50,19 +48,6 @@
 .close:hover {
   background: var(--surface-hover);
   color: var(--text);
-}
-
-@keyframes fade {
-  from {
-    opacity: 0;
-  }
-}
-
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
 }
 
 /* Auf größeren Screens mittig statt als Bottom-Sheet */

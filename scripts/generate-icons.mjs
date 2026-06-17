@@ -6,17 +6,18 @@ import { mkdirSync } from 'node:fs';
 const OUT = 'public';
 mkdirSync(OUT, { recursive: true });
 
-const STROKE = `<g fill="none" stroke="#fbf9f3" stroke-width="30" stroke-linecap="round">
-  <path d="M120 196v120"/>
-  <path d="M168 164v184"/>
-  <path d="M392 196v120"/>
-  <path d="M344 164v184"/>
-  <path d="M168 256h176"/>
+// Hantel-Marke, mittig auf 512er-Grid (symmetrisch um 256).
+const STROKE = `<g fill="none" stroke="#ffffff" stroke-width="34" stroke-linecap="round">
+  <path d="M196 256h120"/>
+  <path d="M196 212v88"/>
+  <path d="M316 212v88"/>
+  <path d="M156 228v56"/>
+  <path d="M356 228v56"/>
 </g>`;
 
 const GRAD = `<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-  <stop offset="0" stop-color="#c8704c"/>
-  <stop offset="1" stop-color="#a4512f"/>
+  <stop offset="0" stop-color="#5468e0"/>
+  <stop offset="1" stop-color="#3344b8"/>
 </linearGradient></defs>`;
 
 // Abgerundete Variante (transparente Ecken) — purpose "any"

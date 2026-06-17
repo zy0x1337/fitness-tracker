@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Modal } from '../../components/Modal';
 import { Button } from '../../components/Button';
+import { IconClose, IconPlus } from '../../components/icons';
 import { WEEKDAY_LABELS } from '../../lib/date';
 import { useApp } from '../../store/AppContext';
 import type { Exercise, Workout } from '../../store/types';
@@ -145,14 +146,7 @@ export function WorkoutForm({ weekday, workout, onClose }: WorkoutFormProps) {
                     onClick={() => removeExercise(ex.id)}
                     aria-label="Übung entfernen"
                   >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="M6 6l12 12M18 6L6 18"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      />
-                    </svg>
+                    <IconClose size={18} />
                   </button>
                 </div>
 
@@ -216,14 +210,7 @@ export function WorkoutForm({ weekday, workout, onClose }: WorkoutFormProps) {
               className={styles.addExercise}
               onClick={addExercise}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M12 5v14M5 12h14"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                />
-              </svg>
+              <IconPlus size={18} />
               Übung hinzufügen
             </button>
           </div>

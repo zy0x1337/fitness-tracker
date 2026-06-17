@@ -1,7 +1,10 @@
 import { useMemo } from 'react';
+import { motion } from 'framer-motion';
 import { useApp } from '../../store/AppContext';
 import { formatShortFromISO, isoDaysAgo, todayISO } from '../../lib/date';
 import { EmptyState } from '../../components/EmptyState';
+import { IconCheck, IconFlame, IconSkip } from '../../components/icons';
+import { springPop, staggerContainer, staggerItem } from '../../lib/motion';
 import type { DailyLog, LogEntry } from '../../store/types';
 import styles from './HistoryView.module.css';
 import page from '../page.module.css';
@@ -23,24 +26,6 @@ function computeStreak(log: DailyLog): number {
   }
   return streak;
 }
-
-const CheckIcon = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-    <path
-      d="M5 12.5l4.2 4.2L19 7"
-      stroke="currentColor"
-      strokeWidth="2.2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const SkipIcon = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-    <path d="M6 12h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-  </svg>
-);
 
 export function HistoryView() {
   const { state } = useApp();
@@ -65,17 +50,18 @@ export function HistoryView() {
 
       <div className={styles.streak}>
         <span className={styles.streakIcon}>
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M13 3c.5 3-1.5 4-2.8 5.5C9 10 8 11.5 8 13.5a4 4 0 0 0 8 .2c0-1.2-.4-2-.9-2.8.9.3 1.6 1 2 1.9.6 1.2.7 2.7.2 4-.9 2.4-3.3 4-5.9 4-3.3 0-6-2.5-6-5.8 0-2.4 1.3-4.2 2.8-5.8C10 7.3 12 6 13 3Z"
-              fill="currentColor"
-            />
-          </svg>
+          <IconFlame size={26} />
         </span>
         <div>
-          <div className={styles.streakNum}>
+          <motion.div
+            key={streak}
+            className={styles.streakNum}
+            initial={{ scale: 0.7, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={springPop}
+          >
             {streak} {streak === 1 ? 'Tag' : 'Tage'}
-          </div>
+          </motion.div>
           <div className={styles.streakLabel}>
             {streak > 0 ? 'aktuelle Serie' : 'Noch keine Serie — leg heute los.'}
           </div>
@@ -88,21 +74,30 @@ export function HistoryView() {
           text="Sobald du Workouts als erledigt oder nicht erledigt markierst, erscheinen sie hier."
         />
       ) : (
-        <div className={styles.days}>
+        <motion.div
+          className={styles.days}
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+        >
           {dates.map((date) => {
             const entries = Object.values(state.log[date]);
             return (
-              <section key={date} className={styles.day}>
+              <motion.section
+                key={date}
+                className={styles.day}
+                variants={staggerItem}
+              >
                 <h2 className={styles.dayDate}>{formatShortFromISO(date)}</h2>
                 <div className={styles.entries}>
                   {entries.map((entry, i) => (
                     <HistoryEntry key={i} entry={entry} />
                   ))}
                 </div>
-              </section>
+              </motion.section>
             );
           })}
-        </div>
+        </motion.div>
       )}
     </div>
   );
@@ -115,7 +110,7 @@ function HistoryEntry({ entry }: { entry: LogEntry }) {
       <span
         className={`${styles.mark} ${complete ? styles.markComplete : styles.markSkipped}`}
       >
-        {complete ? <CheckIcon /> : <SkipIcon />}
+        {complete ? <IconCheck size={15} /> : <IconSkip size={15} />}
       </span>
       <div className={styles.entryBody}>
         <div className={styles.entryName}>{entry.workoutName}</div>

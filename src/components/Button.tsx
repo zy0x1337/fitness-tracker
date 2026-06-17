@@ -1,9 +1,15 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { tapScale } from '../lib/motion';
 import styles from './Button.module.css';
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'danger';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps
+  extends Omit<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    'onAnimationStart' | 'onDrag' | 'onDragStart' | 'onDragEnd'
+  > {
   variant?: Variant;
   size?: 'sm' | 'md';
   fullWidth?: boolean;
@@ -18,6 +24,7 @@ export function Button({
   children,
   ...rest
 }: ButtonProps) {
+  const reduce = useReducedMotion();
   const classes = [
     styles.btn,
     styles[variant],
@@ -29,8 +36,12 @@ export function Button({
     .join(' ');
 
   return (
-    <button className={classes} {...rest}>
+    <motion.button
+      className={classes}
+      whileTap={reduce ? undefined : tapScale}
+      {...rest}
+    >
       {children}
-    </button>
+    </motion.button>
   );
 }

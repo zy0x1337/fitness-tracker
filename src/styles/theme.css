@@ -1,7 +1,7 @@
 /*
  * Design-Tokens — ein Ort für Farben, Spacing, Radien, Typo.
- * Light-first: warmes Off-White/Beige statt reinem Weiß.
- * Dark: schlicht, warmes Off-black, invertierte Tokens.
+ * Light-first, kühl & modern: neutrale Grautöne mit klarem Indigo-Akzent.
+ * Dark: invertiert, einmal definierte Wertquelle (--dk-*).
  */
 
 :root {
@@ -24,7 +24,8 @@
   /* Typo */
   --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
     Helvetica, Arial, sans-serif;
-  --font-display: 'Georgia', 'Iowan Old Style', 'Times New Roman', serif;
+  --font-display: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    sans-serif;
 
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
@@ -34,13 +35,36 @@
   --text-2xl: 1.75rem;
   --text-3xl: 2.25rem;
 
-  /* weiche Schatten — sehr sparsam eingesetzt */
-  --shadow-sm: 0 1px 2px rgba(60, 50, 35, 0.04);
-  --shadow-md: 0 6px 24px -12px rgba(60, 50, 35, 0.18);
-  --shadow-lg: 0 18px 48px -20px rgba(40, 32, 22, 0.28);
-
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --maxw: 560px;
+
+  /* ---- Dark-Wertquelle (einmal definiert, von zwei Selektoren genutzt) ---- */
+  --dk-bg: #0f1217; /* kühles Off-black */
+  --dk-bg-elevated: #161a21;
+  --dk-surface: #1b202a;
+  --dk-surface-hover: #232a36;
+
+  --dk-border: rgba(255, 255, 255, 0.08);
+  --dk-border-strong: rgba(255, 255, 255, 0.15);
+
+  --dk-text: #e7eaf0;
+  --dk-text-muted: #9aa4b2;
+  --dk-text-faint: #69727f;
+
+  --dk-accent: #7c93ff;
+  --dk-accent-hover: #93a6ff;
+  --dk-accent-soft: rgba(124, 147, 255, 0.16);
+  --dk-accent-contrast: #0f1217;
+
+  --dk-success: #34d399;
+  --dk-success-soft: rgba(52, 211, 153, 0.16);
+
+  --dk-danger: #fb7185;
+  --dk-danger-soft: rgba(251, 113, 133, 0.16);
+
+  --dk-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --dk-shadow-md: 0 6px 24px -12px rgba(0, 0, 0, 0.55);
+  --dk-shadow-lg: 0 18px 48px -20px rgba(0, 0, 0, 0.65);
 }
 
 /* ---------- Light (primär) ---------- */
@@ -48,114 +72,85 @@
 :root[data-theme='light'] {
   color-scheme: light;
 
-  --bg: #f3efe6; /* warmes Off-White / dezentes Beige */
-  --bg-elevated: #f8f5ee;
-  --surface: #fbf9f3; /* Karten — leicht heller, „Papier" */
-  --surface-hover: #f4f0e7;
+  --bg: #f5f6f8; /* kühles, helles Grau */
+  --bg-elevated: #fafbfc;
+  --surface: #ffffff;
+  --surface-hover: #eef1f5;
 
-  --border: rgba(60, 48, 30, 0.1); /* feine Hairline */
-  --border-strong: rgba(60, 48, 30, 0.16);
+  --border: rgba(17, 24, 39, 0.08); /* feine Hairline */
+  --border-strong: rgba(17, 24, 39, 0.14);
 
-  --text: #2a2723; /* warmes near-black */
-  --text-muted: #6f685c;
-  --text-faint: #9b9486;
+  --text: #18202e; /* kühles near-black / Slate */
+  --text-muted: #5b6675;
+  --text-faint: #97a0ad;
 
-  --accent: #b95e3c; /* gedämpftes Terracotta */
-  --accent-hover: #a4512f;
-  --accent-soft: rgba(185, 94, 60, 0.12);
-  --accent-contrast: #fbf9f3;
+  --accent: #3f5bd9; /* klares, kühles Indigo */
+  --accent-hover: #3349bf;
+  --accent-soft: rgba(63, 91, 217, 0.1);
+  --accent-contrast: #ffffff;
 
-  --success: #5a7d52; /* gedämpftes Sage-Grün */
-  --success-soft: rgba(90, 125, 82, 0.14);
+  --success: #15a37f; /* kühles Smaragd-Grün */
+  --success-soft: rgba(21, 163, 127, 0.12);
 
-  --danger: #b25563; /* gedämpftes Rot */
-  --danger-soft: rgba(178, 85, 99, 0.12);
+  --danger: #e11d48;
+  --danger-soft: rgba(225, 29, 72, 0.1);
 
-  /* gedämpfte Kategorie-Töne */
-  --cat-push: #b95e3c;
-  --cat-pull: #5a7d52;
-  --cat-legs: #5b6f8c;
-  --cat-cardio: #b25563;
-  --cat-core: #b08436;
-  --cat-mobility: #4f8278;
-  --cat-custom: #7a7264;
+  /* weiche, kühl getönte Schatten — sparsam */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 6px 24px -12px rgba(15, 23, 42, 0.18);
+  --shadow-lg: 0 18px 48px -20px rgba(15, 23, 42, 0.26);
 }
 
-/* ---------- Dark (sekundär, schlicht) ---------- */
+/* ---------- Dark (explizit gewählt) ---------- */
 :root[data-theme='dark'] {
   color-scheme: dark;
 
-  --bg: #1a1816; /* warmes Off-black */
-  --bg-elevated: #211e1b;
-  --surface: #252220;
-  --surface-hover: #2c2926;
-
-  --border: rgba(255, 248, 235, 0.1);
-  --border-strong: rgba(255, 248, 235, 0.16);
-
-  --text: #ece6db;
-  --text-muted: #a59d8f;
-  --text-faint: #756e62;
-
-  --accent: #d27d5b;
-  --accent-hover: #dd8d6c;
-  --accent-soft: rgba(210, 125, 91, 0.16);
-  --accent-contrast: #1a1816;
-
-  --success: #84a87a;
-  --success-soft: rgba(132, 168, 122, 0.18);
-
-  --danger: #cd7d89;
-  --danger-soft: rgba(205, 125, 137, 0.18);
-
-  --cat-push: #d27d5b;
-  --cat-pull: #84a87a;
-  --cat-legs: #8298b6;
-  --cat-cardio: #cd7d89;
-  --cat-core: #cda864;
-  --cat-mobility: #74aaa0;
-  --cat-custom: #a39b8d;
-
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 6px 24px -12px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 18px 48px -20px rgba(0, 0, 0, 0.6);
+  --bg: var(--dk-bg);
+  --bg-elevated: var(--dk-bg-elevated);
+  --surface: var(--dk-surface);
+  --surface-hover: var(--dk-surface-hover);
+  --border: var(--dk-border);
+  --border-strong: var(--dk-border-strong);
+  --text: var(--dk-text);
+  --text-muted: var(--dk-text-muted);
+  --text-faint: var(--dk-text-faint);
+  --accent: var(--dk-accent);
+  --accent-hover: var(--dk-accent-hover);
+  --accent-soft: var(--dk-accent-soft);
+  --accent-contrast: var(--dk-accent-contrast);
+  --success: var(--dk-success);
+  --success-soft: var(--dk-success-soft);
+  --danger: var(--dk-danger);
+  --danger-soft: var(--dk-danger-soft);
+  --shadow-sm: var(--dk-shadow-sm);
+  --shadow-md: var(--dk-shadow-md);
+  --shadow-lg: var(--dk-shadow-lg);
 }
 
-/* Folgt der Systemeinstellung, wenn der Nutzer „System" wählt. */
+/* ---------- Dark (per System, wenn „System" gewählt) ---------- */
 @media (prefers-color-scheme: dark) {
   :root[data-theme='system'] {
     color-scheme: dark;
 
-    --bg: #1a1816;
-    --bg-elevated: #211e1b;
-    --surface: #252220;
-    --surface-hover: #2c2926;
-
-    --border: rgba(255, 248, 235, 0.1);
-    --border-strong: rgba(255, 248, 235, 0.16);
-
-    --text: #ece6db;
-    --text-muted: #a59d8f;
-    --text-faint: #756e62;
-
-    --accent: #d27d5b;
-    --accent-hover: #dd8d6c;
-    --accent-soft: rgba(210, 125, 91, 0.16);
-    --accent-contrast: #1a1816;
-
-    --success: #84a87a;
-    --success-soft: rgba(132, 168, 122, 0.18);
-
-    --cat-push: #d27d5b;
-    --cat-pull: #84a87a;
-    --cat-legs: #8298b6;
-    --cat-cardio: #cd7d89;
-    --cat-core: #cda864;
-    --cat-mobility: #74aaa0;
-    --cat-custom: #a39b8d;
-
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 6px 24px -12px rgba(0, 0, 0, 0.5);
-    --shadow-lg: 0 18px 48px -20px rgba(0, 0, 0, 0.6);
+    --bg: var(--dk-bg);
+    --bg-elevated: var(--dk-bg-elevated);
+    --surface: var(--dk-surface);
+    --surface-hover: var(--dk-surface-hover);
+    --border: var(--dk-border);
+    --border-strong: var(--dk-border-strong);
+    --text: var(--dk-text);
+    --text-muted: var(--dk-text-muted);
+    --text-faint: var(--dk-text-faint);
+    --accent: var(--dk-accent);
+    --accent-hover: var(--dk-accent-hover);
+    --accent-soft: var(--dk-accent-soft);
+    --accent-contrast: var(--dk-accent-contrast);
+    --success: var(--dk-success);
+    --success-soft: var(--dk-success-soft);
+    --danger: var(--dk-danger);
+    --danger-soft: var(--dk-danger-soft);
+    --shadow-sm: var(--dk-shadow-sm);
+    --shadow-md: var(--dk-shadow-md);
+    --shadow-lg: var(--dk-shadow-lg);
   }
 }

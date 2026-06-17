@@ -41,6 +41,7 @@ export function TabBar({ active, onChange }: TabBarProps) {
                 <motion.span
                   layoutId="tab-pill"
                   className={styles.pill}
+                  style={{ borderRadius: 12 }}
                   transition={springSoft}
                 />
               )}
